@@ -1,12 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const Heading = function () {
+  return <h1>반가워요. 컴포넌트로 HTML 만듦</h1>;
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <Heading></Heading>
+    <h1>반가워요.</h1>
+    <h2>소제목입니다.</h2>
+    <header>상단이에요.</header>
     <App />
   </React.StrictMode>
 );
