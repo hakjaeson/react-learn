@@ -60,3 +60,150 @@ reportWebVitals();
 - 하지만, React 에서는 관례상 `컴포넌트로 html 태그를 만들어 배치`한다.
 - 처음으로 볼수 있는 html 태그를 생성하는 컴포넌트는 App.js 이다.
 - React html 인 `컴포넌트의 이름을 대문자로 반드시 시작`한다.
+- React html 인 컴포넌트에 html 요소가 2개 이상이면 반드시 `<></>` 로 감싸준다.
+- 기본적인 컴포넌트의 모양새는 다음과 같다.
+
+```js
+const 컴포넌트변수 = function () {
+  return <>태그자리</>;
+};
+const 컴포넌트변수 = () => {
+  return <>태그자리</>;
+};
+```
+
+- 컴포넌트 샘플 코드
+
+```js
+import React, { Fragment } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+const Heading = function () {
+  return (
+    <div>
+      반가워요 <b>정화섭</b>. 컴포넌트로 HTML 만듦
+    </div>
+  );
+};
+const H1 = function () {
+  return <h1>반가워요.</h1>;
+};
+const Stitle = function () {
+  return <h2>소제목입니다.</h2>;
+};
+const HeaderH3 = function () {
+  return <header>상단이에요.</header>;
+};
+const PWord = function () {
+  return (
+    <>
+      <p>1번 문장입니다. </p>
+      <p>2번 문장입니다.</p>
+    </>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    {/* <p>1번 문장입니다. </p>
+    <p>2번 문장입니다.</p> */}
+    <PWord />
+    <Heading />
+    <H1 />
+    <Heading />
+    <Stitle />
+    <Heading />
+    <HeaderH3 />
+    <Heading />
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
+
+- 컴포넌트는 관례적으로 파스칼케이스 컴포넌트.js 로 만든다.
+
+```js
+// src/Heading.js
+const Heading = function () {
+  return (
+    <div>
+      반가워요 <b>정화섭</b>. 컴포넌트로 HTML 만듦
+    </div>
+  );
+};
+export default Heading;
+```
+
+- 컴포넌트를 사용하는 곳에서는 import 를 활용한다.
+
+```js
+import Heading from "Heading";
+```
+
+- 전체코드
+
+```js
+import React, { Fragment } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import Heading from "./Heading.js";
+
+// const Heading = function () {
+//   return (
+//     <div>
+//       반가워요 <b>정화섭</b>. 컴포넌트로 HTML 만듦
+//     </div>
+//   );
+// };
+
+const H1 = function () {
+  return <h1>반가워요.</h1>;
+};
+const Stitle = function () {
+  return <h2>소제목입니다.</h2>;
+};
+const HeaderH3 = function () {
+  return <header>상단이에요.</header>;
+};
+const PWord = function () {
+  return (
+    <>
+      <p>1번 문장입니다. </p>
+      <p>2번 문장입니다.</p>
+    </>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    {/* <p>1번 문장입니다. </p>
+    <p>2번 문장입니다.</p> */}
+    <PWord />
+    <Heading />
+    <H1 />
+    <Heading />
+    <Stitle />
+    <Heading />
+    <HeaderH3 />
+    <Heading />
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
