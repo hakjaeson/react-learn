@@ -1,10 +1,16 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import "../styles/main.css";
+
+// 컴포넌트명.module.css 라서
+import styles from "../styles/Main.module.css";
+
+// module.css 가 아닌 일반적 css
+// import "../styles/Main.css";
 
 const Main = () => {
   return (
-    <div className="wrap">
+    // <div className="wrap" >
+    <div className={styles.wrap}>
       {/* 상단 내용 고정 */}
       <Header>
         <a href="#">로고</a>
@@ -84,7 +90,7 @@ const Main = () => {
       {/* 내용은 자주 변함 */}
       <main className="main">
         <section className="slide">
-          <div>이미지슬라이드</div>
+          <div className="inner">이미지슬라이드</div>
         </section>
         <section className="community">
           <div className="inner">
