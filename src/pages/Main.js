@@ -3,12 +3,13 @@ import Header from "../components/Header";
 import "../scss/main.css";
 import { WrapCss } from "../styles/sample";
 
-const Main = () => {
-  
+// 리액트 emotion
+import { ComunitySection, SlideSection } from "../styles/tag";
 
+const Main = () => {
   return (
     // <div className="wrap" >
-    <div className="wrap" style={WrapCss}>
+    <div className="wrap">
       {/* 상단 내용 고정 */}
       <Header>
         <a href="#">로고</a>
@@ -87,10 +88,10 @@ const Main = () => {
       </Header>
       {/* 내용은 자주 변함 */}
       <main className="main">
-        <section className="slide">
+        <SlideSection bg="yellow" h={200}>
           <div className="inner">이미지슬라이드</div>
-        </section>
-        <section className="community">
+        </SlideSection>
+        <ComunitySection>
           <div className="inner">
             <div className="community-notice">
               <div>공지사항</div>
@@ -99,7 +100,7 @@ const Main = () => {
             <div className="community-banner">배너</div>
             <div className="community-link">바로가기</div>
           </div>
-        </section>
+        </ComunitySection>
       </main>
       {/* 하단 고정 */}
       <Footer>
