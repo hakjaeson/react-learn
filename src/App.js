@@ -3,11 +3,12 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Members from "./pages/Members";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MembersDetail from "./pages/MembersDetail";
 import Ceo from "./pages/Ceo";
 import Map from "./pages/Map";
 import NotFound from "./pages/NotFound";
+import Notice from "./pages/Notice";
 
 const App = () => {
   const initMemberData = [
@@ -47,9 +48,9 @@ const App = () => {
           <Route path="/about" element={<About title="우리서비스소개" />}>
             {/* Outelet 컴포넌트 초기화면은 index 로 셋트 */}
             <Route index element={<Ceo />}></Route>
-
             <Route path="ceo" element={<Ceo />}></Route>
             <Route path="map" element={<Map />}></Route>
+            <Route path="notice" element={<Notice />}></Route>
           </Route>
 
           {/* Nested Router */}
