@@ -1,21 +1,11 @@
-import React from "react";
-import { DatePicker, Space } from "antd";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import dayjs from "dayjs";
-dayjs.extend(customParseFormat);
+import React, { useEffect } from "react";
+import { getProduct } from "./api/product/product-api";
 
-const { RangePicker } = DatePicker;
-const App = () => (
-  <Space direction="vertical" size={12}>
-    <RangePicker />
-    <RangePicker
-      open={true}
-      disabled
-      defaultValue={[
-        dayjs("2023-12-20", "YYY-MM-DD"),
-        dayjs("2023-12-26", "YYY-MM-DD"),
-      ]}
-    />
-  </Space>
-);
+const App = () => {
+  useEffect(() => {
+    getProduct();
+  }, []);
+  return <div>App</div>;
+};
+
 export default App;
