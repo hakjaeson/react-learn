@@ -7,9 +7,11 @@ import "./styles/normalize.css";
 import "./styles/index.css";
 import Product from "./pages/product/Product";
 import Meal from "./pages/meal/Meal";
+import CategoryIndex from "./pages/category/CategoryIndex";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 // root.render(<App />);
 // root.render(<App />);
-root.render(<Meal />);
+// root.render(<Meal />);
 // root.render(<Product />);
+root.render(<CategoryIndex />);
