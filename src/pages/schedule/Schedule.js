@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Calendar } from "antd";
+import moment from "moment/moment";
 // 외부 데이터 가져오기
 // - 일별데이터
 //     "todos": [
@@ -80,7 +81,7 @@ const Schedule = () => {
       item => item.todoDate.trim() === selectDate,
     );
 
-    console.log("데이터가 있는 날짜 ", findeShowList);
+    // console.log("데이터가 있는 날짜 ", findeShowList);
 
     // console.log("listData 출력할 자료", listData);
     // console.log("날짜 정보 ", selectDate);
@@ -118,13 +119,33 @@ const Schedule = () => {
     }
     return info.originNode;
   };
+  const [selectedDateNow, setSelectedDateNow] = useState(null);
+  const handleDateSelect = (value, info) => {
+    value = moment(value).format("YYYY-MM-DD");
+    // console.log("Selected Date: ", value);
+    // setSelectedDate2(value);
+  };
+
+  const handleCalendarSelect = value => {
+    console.log("Selected Date: ", value);
+    setSelectedDateNow(value);
+  };
 
   return (
     <div>
       <h1>캘린더 연습</h1>
+      <p>
+        {selectedDateNow
+          ? selectedDateNow.format("YYYY-MM-DD")
+          : "No date selected"}
+      </p>
       <div style={{ width: "80%", margin: "0 auto" }}>
         {/* 캘린더 컴포넌트가 그려질때 props 전달 */}
-        <Calendar cellRender={cellRender} />
+        <Calendar
+          cellRender={cellRender}
+          onSelect={handleCalendarSelect}
+          value={selectedDateNow}
+        />
       </div>
       {/* 모달 */}
       <Modal
