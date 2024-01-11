@@ -19,7 +19,7 @@ const App = () => {
           path="/"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyMainPage/>
+              <LazyMainPage />
             </Suspense>
           }
         />
@@ -61,7 +61,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify"
+            path="modify/:tno"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyTodoModifyPage />
