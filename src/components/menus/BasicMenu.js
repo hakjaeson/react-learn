@@ -13,6 +13,9 @@ const BasicMenu = () => {
         <li>
           <Link to="/todo/">Todo</Link>
         </li>
+        <li>
+          <Link to="/product/">Product</Link>
+        </li>
       </ul>
     </nav>
   );
