@@ -53,3 +53,40 @@ export const getOne = async ({ pno, successFn, failFn, errorFn }) => {
     errorFn("상세정보 호출 서버 에러에요");
   }
 };
+
+// 제품 수정하기
+export const putOne = async ({ pno, product, successFn, failFn, errorFn }) => {
+  try {
+    // 여기서도 이미지가 추가될 수 있어요.
+    // header 가 필요합니다.
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await axios.put(`${host}/${pno}`, product, header);
+
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("상세정보 호출 오류입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
+  }
+};
+
+// 상품 삭제
+export const deleteOne = async ({ pno, successFn, failFn, errorFn }) => {
+  try {
+    // 여기서도 이미지가 추가될 수 있어요.
+    // header 가 필요합니다.
+    const res = await axios.delete(`${host}/${pno}`);
+
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("제품삭제 호출 오류입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
+  }
+};
