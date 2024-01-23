@@ -1,13 +1,161 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 4. 컴포넌트 js의 이해
 
-### 1. 리액트 프로젝트 생성법
+### 4.1. js 출력하기 : 글자, 숫자
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+```js
+function App() {
+  // const a = 1;
+  // return <>{a}</>;
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+  // const b = "안녕";
+  // return <>{b}</>;
+  // const a = 1;
+  // const b = 2;
+  // return <>{a + b}</>;
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+  // 화면 출력 결과물이 없을 시 미 출력
+  // const a = true;
+  // return <>{a}</>;
+
+  // 화면 출력 결과물이 없을 시 미 출력
+  // const a = undefined;
+  // return <>{a}</>;
+
+  // 화면 출력 결과물이 없을 시 미 출력
+  // const a = null;
+  // return <>{a}</>;
+
+  // 화면 출력 결과물이 없을 시 미 출력
+  // const a = { age: 1, name: "홍길동", live: true };
+  // return (
+  //   <>
+  //     {/* 객체 자체는 값이지만 글자, 숫자 아니에요. */}
+  //     {/* {a} */}
+  //     <br />
+  //     {a.age}
+  //     <br />
+  //     {a.name}
+  //     <br />
+  //     {a.live}
+  //   </>
+  // );
+
+  // const arr = [1, 2, 3, 4];
+  // return (
+  //   <>
+  //     {arr}
+  //     <br />
+  //     {arr[0]}
+  //     <br />
+  //     {arr[1]}
+  //     <br />
+  //     {arr[2]}
+  //     <br />
+  //     {arr[3]}
+  //     <br />
+  //     {arr[4]}
+  //   </>
+  // );
+  const arr = ["안", 20, true, null, undefined, "녕"];
+  return (
+    <>
+      {arr}
+      <br />
+      {arr[0]}
+      <br />
+      {arr[1]}
+      <br />
+      {arr[2]}
+      <br />
+      {arr[3]}
+      <br />
+      {arr[4]}
+      <br />
+      {arr[5]}
+      <br />
+      {arr.length}
+    </>
+  );
+}
+
+export default App;
+```
+
+```js
+function App() {
+  //const age = 18;
+  //return <>나이는 {age} 입니다.</>;
+
+  //const age = 20;
+  //return <>{`나이는 ${age} 입니다`}</>;
+
+  const age = 25;
+  return <> {"나이는 " + age + " 입니다."} </>;
+}
+
+export default App;
+```
+
+```js
+function App() {
+  // function say() {
+  //   return "안녕";
+  // }
+  // return <>{say()}</>;
+
+  function say(who) {
+    // return "안녕 " + who + "!";
+    return `안녕 ${who}!`;
+  }
+
+  return <>{say("경민님")}</>;
+}
+
+export default App;
+```
+
+- 화살표 함수 고치기
+
+```js
+function App() {
+  // const say = () => {
+  //   return "안녕";
+  // }
+  // return <>{say()}</>;
+
+  const say = who => {
+    // return "안녕 " + who + "!";
+    return `안녕 ${who}!`;
+  };
+
+  return <>{say("경민님")}</>;
+}
+
+export default App;
+```
+
+```js
+const App = () => {
+  // const say = () => {
+  //   return "안녕";
+  // }
+  // return <>{say()}</>;
+
+  const say = who => {
+    // return "안녕 " + who + "!";
+    return `안녕 ${who}!`;
+  };
+
+  return <>{say("경민님")}</>;
+};
+
+export default App;
+```
+
+### 4.2. 조건문의 이해
+
+### 4.3. 반복문의 이해
+
+### 4.4. 이벤트(onClick, onChange)의 이해
