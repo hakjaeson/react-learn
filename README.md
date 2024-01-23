@@ -1,13 +1,155 @@
-# React 공부하기
+# React
 
-## 프로젝트 생성
+## [Nivo](https://nivo.rocks/)
 
-### 1. 리액트 프로젝트 생성법
+- [Nivo NPM](https://www.npmjs.com/package/nivo)
+- `npm install @nivo/core`
+- 예
+  `npm install @nivo/bar`
+  `npm i @nivo/pie`
+  `npm i @nivo/line`
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+  ```javascript
+  import React from "react";
+  import { ResponsiveLine } from "@nivo/line";
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+  const getData = {
+    data: [
+      {
+        id: "Health",
+        color: "hsl(246, 70%, 50%)",
+        data: [
+          {
+            x: "plane",
+            y: 131,
+          },
+          {
+            x: "helicopter",
+            y: 221,
+          },
+          {
+            x: "boat",
+            y: 86,
+          },
+          {
+            x: "train",
+            y: 184,
+          },
+          {
+            x: "subway",
+            y: 231,
+          },
+          {
+            x: "bus",
+            y: 90,
+          },
+          {
+            x: "car",
+            y: 100,
+          },
+          {
+            x: "moto",
+            y: 123,
+          },
+          {
+            x: "bicycle",
+            y: 67,
+          },
+          {
+            x: "horse",
+            y: 271,
+          },
+          {
+            x: "skateboard",
+            y: 6,
+          },
+          {
+            x: "others",
+            y: 82,
+          },
+        ],
+      },
+    ],
+  };
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+  const Chart = () => {
+    // 자바스크립트 영역
+    const MyResponsiveLine = ({ data }) => (
+      <ResponsiveLine
+        data={data}
+        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        xScale={{ type: "point" }}
+        yScale={{
+          type: "linear",
+          min: "auto",
+          max: "auto",
+          stacked: true,
+          reverse: false,
+        }}
+        yFormat=" >-.2f"
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "transportation",
+          legendOffset: 36,
+          legendPosition: "middle",
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "count",
+          legendOffset: -40,
+          legendPosition: "middle",
+        }}
+        pointSize={10}
+        pointColor={{ theme: "background" }}
+        pointBorderWidth={2}
+        pointBorderColor={{ from: "serieColor" }}
+        pointLabelYOffset={-12}
+        useMesh={true}
+        legends={[
+          {
+            anchor: "bottom-right",
+            direction: "column",
+            justify: false,
+            translateX: 100,
+            translateY: 0,
+            itemsSpacing: 0,
+            itemDirection: "left-to-right",
+            itemWidth: 80,
+            itemHeight: 20,
+            itemOpacity: 0.75,
+            symbolSize: 12,
+            symbolShape: "circle",
+            symbolBorderColor: "rgba(0, 0, 0, .5)",
+            effects: [
+              {
+                on: "hover",
+                style: {
+                  itemBackground: "rgba(0, 0, 0, .03)",
+                  itemOpacity: 1,
+                },
+              },
+            ],
+          },
+        ]}
+        animate={false}
+      />
+    );
+
+    return (
+      <div>
+        Chart
+        <div style={{ width: "100%", height: "500px" }}>
+          {MyResponsiveLine(getData)}
+        </div>
+      </div>
+    );
+  };
+
+  export default Chart;
+  ```
