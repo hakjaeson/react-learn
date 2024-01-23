@@ -1,13 +1,98 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 3. 컴포넌트 html의 이해
 
-### 1. 리액트 프로젝트 생성법
+- 컴포넌트의 용도 1 은 html 을 출력한다.
+- 컴포넌트의 용도 2 은 여러번 재사용.
+- 컴포넌트의 용도 3 은 유지보수 편리.
+- 컴포넌트는 관례상 파일로 생성.
+- 컴포넌트는 반드시 파스칼케이스(대문자)로 파일 및 코드 생성.
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+### 2. 리액트 작업 (CSS 작업)
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+- prettier 프로제트 설정
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+  - vscode 에 prettier 익스텐슨 설치 필수
+  - /에 `.prettierrc.json` 파일 생성
+
+  ```json
+  {
+    "singleQuote": false,
+    "semi": true,
+    "useTabs": false,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "printWidth": 80,
+    "arrowParens": "avoid",
+    "endOfLine": "auto"
+  }
+  ```
+
+- elslint 프로젝트 설정
+
+  - `npx eslint --init` 외부에서 설정하도록 진행
+  - To check syntax and find problems 선택
+  - JavaScript modules (import/export) 선택
+  - React 선택
+  - Does your project use TypeScript? No 선택
+  - Where does your code run? Browser 선택
+  - What format do you want your config file to be in? JavaScript 선택
+  - Would you like to install them now? Yes 선택
+  - Which package manager do you want to use? npm 선택
+  - .eslintrc.js
+
+  ```js
+  module.exports = {
+    env: {
+      browser: true,
+      es2021: true,
+    },
+    extends: ["eslint:recommended", "plugin:react/recommended"],
+    overrides: [
+      {
+        env: {
+          node: true,
+        },
+        files: [".eslintrc.{js,cjs}"],
+        parserOptions: {
+          sourceType: "script",
+        },
+      },
+    ],
+    parserOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+    },
+    plugins: ["react"],
+    rules: {},
+  };
+  ```
+
+- eslint 와 prettier 를 연결하여서 eslint 설정
+  `npm install eslint-config-prettier --save-dev`
+  - `.eslintrc.js` 내용 수정("prettier" 추가)
+  ```js
+    ...
+    extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
+    ...
+  ```
+- eslint rules 추가(오류, 경고, 제외할 설정 작성)
+
+  ```js
+    ...
+    rules: {
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "no-unused-vars": "off",
+    },
+    ...
+  ```
+
+- 버전에 의한 경고(Warging) 제외
+  `npm install @babel/plugin-proposal-private-property-in-object --dev`
+
+#### 2.4. js 형식 : inline {} 방식
+
+#### 2.5. js 형식 : 변수 {} 방식
+
+#### 2.6. CSS-in-JS 형식 : emotion.js 방식
