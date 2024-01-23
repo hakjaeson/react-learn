@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+const App = () => {
+  const flag = false;
+  const person = {
+    name: "홍길동",
+    age: 16,
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>이름 : {person?.name || "이름이 없군요."}</p>
+      <p>나이 : {person?.age || "나이가 없군요"}</p>
+      <p>직업 : {person?.job || "직업이 없군요."}</p>
     </div>
   );
-}
+};
 
 export default App;
