@@ -1,13 +1,55 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 3. 컴포넌트 html의 이해
 
-### 1. 리액트 프로젝트 생성법
+- 컴포넌트의 용도 1 은 html 을 출력한다.
+- 컴포넌트의 용도 2 은 여러번 재사용.
+- 컴포넌트의 용도 3 은 유지보수 편리.
+- 컴포넌트는 관례상 파일로 생성.
+- 컴포넌트는 반드시 파스칼케이스(대문자)로 파일 및 코드 생성.
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+### 2. 리액트 작업 (CSS 작업)
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+#### 2.2. 파일(리액트 전용) : link moudle.css 방식
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+- 모듈(파일)별 로컬 Scope css 적용하기
+- css 덮어쒸우기가 아니므로 팀 프로젝트에 도입 가능
+- 컴포넌트명.module.css
+- Main.module.css
+
+```js
+// src/components/Header.js
+import sytles from "../styles/Header.module.css";
+const Header = ({ children }) => {
+  // 내부 html을 전달받아서 내용을 변경한다.
+  // const children = props.children;
+  return (
+    <header className={sytles.wrap}>
+      <div>{children}</div>
+    </header>
+  );
+};
+
+export default Header;
+```
+
+src/styles/Header.module.css
+
+```css
+.wrap {
+  position: relative;
+  display: block;
+  width: 50%;
+  max-width: 1180px;
+  margin: 0 auto;
+  background: blue;
+}
+```
+
+#### 2.3. 파일 : link .scss 방식
+
+#### 2.4. js 형식 : inline {} 방식
+
+#### 2.5. js 형식 : 변수 {} 방식
+
+#### 2.6. CSS-in-JS 형식 : emotion.js 방식
