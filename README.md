@@ -1,23 +1,25 @@
-# react-hook-form 과 yup 활용
-
-## react-hook-form 활용
+# react-hook-form
 
 - [react-hook-form](https://www.react-hook-form.com/)
 - `npm install react-hook-form`
+- Ant Design 은 관리자 쪽만 활용
+  : 커스터마이징 힘듭니다. (디자이너와 협업 어렵다)
+  : 주어진 대로 활용해야 한다.
 
-### 1.1. form 기본 코드
+## 1. 기본코드
 
 ```js
 import React from "react";
+
 const FormComponent = () => {
   const handleSubmit = e => {
+    // 새로 고침 막기
     e.preventDefault();
-    console.log("전송");
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" />
+      <form onSubmit={e => handleSubmit(e)}>
+        <input type="text" name="userid" />
         <br />
         <input type="password" name="userpass" />
         <br />
@@ -25,230 +27,163 @@ const FormComponent = () => {
         <br />
         <textarea name="usermemo"></textarea>
         <br />
-        <button type="submit">확인</button>
+        <button>확인</button>
       </form>
     </>
   );
 };
+
 export default FormComponent;
 ```
 
-### 1.2. form 기본 코드(이벤트 걸기)
+## 2. useState 적용하기
 
 ```js
 import React from "react";
-const FormComponent = () => {
-  const handleSubmit = e => {
-    e.preventDefault();
-    console.log("전송");
-  };
-  const handleChange = e => {
-    console.log(e.target.name, e.target.value);
-  };
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" onChange={handleChange} />
-        <br />
-        <input type="password" name="userpass" onChange={handleChange} />
-        <br />
-        <input type="email" name="useremail" onChange={handleChange} />
-        <br />
-        <textarea name="usermemo" onChange={handleChange}></textarea>
-        <br />
-        <button type="submit">확인</button>
-      </form>
-    </>
-  );
-};
-export default FormComponent;
-```
+import { useState } from "react";
 
-### 1.3. form 기본 코드(state 관리하기)
-
-```js
-import React, { useState } from "react";
+// 초기값
 const initState = {
-  username: "",
+  userid: "",
   userpass: "",
   useremail: "",
   usermemo: "",
 };
+
 const FormComponent = () => {
   const [userInfo, setUserInfo] = useState(initState);
   const handleSubmit = e => {
+    // 새로 고침 막기
     e.preventDefault();
-    console.log("전송", userInfo);
   };
   const handleChange = e => {
-    console.log(e.target.name, e.target.value);
+    // e.target.name, e.target.value
     userInfo[e.target.name] = e.target.value;
     setUserInfo({ ...userInfo });
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={e => handleSubmit(e)}>
         <input
           type="text"
-          name="username"
-          onChange={handleChange}
-          value={userInfo.username}
+          name="userid"
+          value={userInfo.userid}
+          onChange={e => handleChange(e)}
         />
         <br />
         <input
           type="password"
           name="userpass"
-          onChange={handleChange}
           value={userInfo.userpass}
+          onChange={e => handleChange(e)}
         />
         <br />
         <input
           type="email"
           name="useremail"
-          onChange={handleChange}
           value={userInfo.useremail}
+          onChange={e => handleChange(e)}
         />
         <br />
         <textarea
           name="usermemo"
-          onChange={handleChange}
-          value={userInfo.usermemo}
+          value={userInfo.useremail}
+          onChange={e => handleChange(e)}
         ></textarea>
         <br />
-        <button type="submit">확인</button>
+        <button>확인</button>
       </form>
     </>
   );
 };
+
 export default FormComponent;
 ```
 
-### 1.4. form 기본 코드(리랜더링 문제)
+## 3. 심각한 문제 발생 (리 랜더링 문제)
+
+- 특별한 경우가 아니면 useState 활요
+- 실무적으로 가면 문제가 되요.
+- 디자인 적용시에 Ant Design 문제
+  : 디자인 편하고, 검증 코드(yup)도 쉽게 활용
+- react-hook-form 을 사용
+
+## 4. react-hook-form 적용
+
+- form 의 입력요소의 name을 읽거나 작성하기
 
 ```js
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+
+// 초기값
 const initState = {
-  username: "",
+  userid: "",
   userpass: "",
   useremail: "",
   usermemo: "",
 };
+
 const FormComponent = () => {
-  console.log("리랜더링....");
-  const [userInfo, setUserInfo] = useState(initState);
+  console.log("리랜더링");
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  const { register } = useForm();
+
   const handleSubmit = e => {
+    // 새로 고침 막기
     e.preventDefault();
-    console.log("전송", userInfo);
-  };
-  const handleChange = e => {
-    console.log(e.target.name, e.target.value);
-    userInfo[e.target.name] = e.target.value;
-    setUserInfo({ ...userInfo });
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          onChange={handleChange}
-          value={userInfo.username}
-        />
+      <form onSubmit={e => handleSubmit(e)}>
+        <input type="text" {...register("userid")} />
         <br />
-        <input
-          type="password"
-          name="userpass"
-          onChange={handleChange}
-          value={userInfo.userpass}
-        />
+        <input type="password" {...register("userpass")} />
         <br />
-        <input
-          type="email"
-          name="useremail"
-          onChange={handleChange}
-          value={userInfo.useremail}
-        />
+        <input type="email" {...register("useremail")} />
         <br />
-        <textarea
-          name="usermemo"
-          onChange={handleChange}
-          value={userInfo.usermemo}
-        ></textarea>
+        <textarea {...register("usermemo")}></textarea>
         <br />
-        <button type="submit">확인</button>
+        <button>확인</button>
       </form>
     </>
   );
 };
+
 export default FormComponent;
 ```
 
-### 2. react-hook-form 기본 코드(리랜더링 문제)
-
-```js
-import React from "react";
-const FormComponent = () => {
-  return (
-    <>
-      <form>
-        <input type="text" name="username" />
-        <br />
-        <input type="password" name="userpass" />
-        <br />
-        <input type="email" name="useremail" />
-        <br />
-        <textarea name="usermemo"></textarea>
-        <br />
-        <button type="submit">확인</button>
-      </form>
-    </>
-  );
-};
-export default FormComponent;
-```
-
-### 2.1 react-hook-form 기본 코드(리랜더링 문제)
+### 4.1. 완료시 데이터 출력
 
 ```js
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const FormComponent = () => {
-  const {} = useForm();
-  return (
-    <>
-      <form>
-        <input type="text" name="username" />
-        <br />
-        <input type="password" name="userpass" />
-        <br />
-        <input type="email" name="useremail" />
-        <br />
-        <textarea name="usermemo"></textarea>
-        <br />
-        <button type="submit">확인</button>
-      </form>
-    </>
-  );
+// 초기값
+const initState = {
+  userid: "",
+  userpass: "",
+  useremail: "",
+  usermemo: "",
 };
-export default FormComponent;
-```
-
-### 2.2 react-hook-form 기본 코드(리랜더링 문제)
-
-```js
-import React from "react";
-import { useForm } from "react-hook-form";
 
 const FormComponent = () => {
+  console.log("리랜더링");
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  // handleSubmit 은 폼의 상태 변화 및 완료시 실행이 됩니다.
   const { register, handleSubmit } = useForm();
-  const handleSubmitFn = data => {
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
     console.log(data);
   };
+
   return (
     <>
-      <form onSubmit={handleSubmit(handleSubmitFn)}>
-        <input type="text" {...register("username")} />
+      <form onSubmit={handleSubmit(handleSubmitMy)}>
+        <input type="text" {...register("userid")} />
         <br />
         <input type="password" {...register("userpass")} />
         <br />
@@ -261,33 +196,42 @@ const FormComponent = () => {
     </>
   );
 };
+
 export default FormComponent;
 ```
 
-### 2.3 react-hook-form 기본 코드(기본값)
+### 4.2. 초기값 셋팅
 
 ```js
 import React from "react";
 import { useForm } from "react-hook-form";
 
+// 초기값
 const initState = {
-  username: "a",
-  userpass: "b",
-  useremail: "c",
-  usermemo: "d",
+  userid: "",
+  userpass: "",
+  useremail: "",
+  usermemo: "",
 };
 
 const FormComponent = () => {
+  console.log("리랜더링");
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  // handleSubmit 은 폼의 상태 변화 및 완료시 실행이 됩니다.
   const { register, handleSubmit } = useForm({
     defaultValues: initState,
   });
-  const handleSubmitFn = data => {
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
     console.log(data);
   };
+
   return (
     <>
-      <form onSubmit={handleSubmit(handleSubmitFn)}>
-        <input type="text" {...register("username")} />
+      <form onSubmit={handleSubmit(handleSubmitMy)}>
+        <input type="text" {...register("userid")} />
         <br />
         <input type="password" {...register("userpass")} />
         <br />
@@ -300,75 +244,139 @@ const FormComponent = () => {
     </>
   );
 };
+
 export default FormComponent;
 ```
 
-## 2. yup 활용 (검증라이브러리)
+## 3. 폼의 값 검증 라이브러리 yup
 
-- [react-hook-form/yup](https://react-hook-form.com/advanced-usage#CustomHookwithResolver)
-- [yup](https://www.npmjs.com/package/yup)
+- [yup](https://github.com/jquense/yup)
 - `npm i yup`
-- [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers)
+- react-hook-form 에서 yup 을 사용하려면 추가 설치 필요
+- [resolver](https://www.npmjs.com/package/@hookform/resolvers)
 - `npm i @hookform/resolvers`
 
-### 2.1. yup 과 react-hook-form 연결하기
+### 3.1. 기본 셋팅
 
 ```js
+import React from "react";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+// 초기값
+const initState = {
+  userid: "",
+  userpass: "",
+  useremail: "",
+  usermemo: "",
+};
+
+const FormComponent = () => {
+  console.log("리랜더링");
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  // handleSubmit 은 폼의 상태 변화 및 완료시 실행이 됩니다.
+  const { register, handleSubmit } = useForm({
+    defaultValues: initState,
+    resolver: yupResolver(),
+  });
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
+    console.log(data);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(handleSubmitMy)}>
+        <input type="text" {...register("userid")} />
+        <br />
+        <input type="password" {...register("userpass")} />
+        <br />
+        <input type="email" {...register("useremail")} />
+        <br />
+        <textarea {...register("usermemo")}></textarea>
+        <br />
+        <button type="submit">확인</button>
+      </form>
+    </>
+  );
+};
+
+export default FormComponent;
 ```
 
-```js
-const { register, handleSubmit } = useForm({
-  defaultValues: initState,
-  resolver: yupResolver(),
-});
-```
+### 3.2. 검증 코드 만들기
 
-### 2.2. yup 검증 코드 넣기
+- [레퍼런스](https://www.react-hook-form.com/advanced-usage/#CustomHookwithResolver)
 
 ```js
+import React from "react";
+import { useForm } from "react-hook-form";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
+// 초기값
+const initState = {
+  userid: "",
+  userpass: "",
+  useremail: "",
+  usermemo: "",
+};
+
+const FormComponent = () => {
+  console.log("리랜더링");
+
+  // yup 검증 코드
+  const validationSchema = yup.object({
+    userid: yup.string("내용을 입력하세요.").required("아이디는 필수입니다."),
+    userpass: yup
+      .string("내용을 입력하세요.")
+      .required("비밀번호는 필수입니다.")
+      .min("4자 이상 입력하세요.")
+      .max(16, "16자까지만 입력하세요 "),
+    useremail: yup
+      .string("내용을 입력하세요.")
+      .required("이메일은 필수입니다.")
+      .email("이메일 형식에 맞지 않습니다"),
+    usermemo: yup.string("내용을 입력하세요.").required("메모 필수입니다."),
+  });
+
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  // handleSubmit 은 폼의 상태 변화 및 완료시 실행이 됩니다.
+  const { register, handleSubmit } = useForm({
+    defaultValues: initState,
+    resolver: yupResolver(validationSchema),
+  });
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
+    console.log(data);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(handleSubmitMy)}>
+        <input type="text" {...register("userid")} />
+        <br />
+        <input type="password" {...register("userpass")} />
+        <br />
+        <input type="email" {...register("useremail")} />
+        <br />
+        <textarea {...register("usermemo")}></textarea>
+        <br />
+        <button type="submit">확인</button>
+      </form>
+    </>
+  );
+};
+
+export default FormComponent;
 ```
 
-```js
-const validationSchema = yup.object({
-  username: yup.string().required("이름을 입력해주세요."),
-  userpass: yup
-    .string()
-    .required("비밀번호를 입력해주세요.")
-    .min(4, "4자 이상 입력하세요.")
-    .max(16, "최대 16자까지 입니다."),
-  useremail: yup
-    .string()
-    .required("이메일을 입력해주세요.")
-    .email("이메일 형식에 맞지 않습니다."),
-  usermemo: yup.string().required("메모를 입력해주세요."),
-});
-```
-
-### 2.3. 연결하기
-
-```js
-const { register, handleSubmit } = useForm({
-  defaultValues: initState,
-  resolver: yupResolver(validationSchema),
-});
-```
-
-### 2.3. 검사시점
-
-```js
-const { register, handleSubmit } = useForm({
-  defaultValues: initState,
-  resolver: yupResolver(validationSchema),
-  mode: "onChange",
-});
-```
-
-### 2.4. 에러 보여주기
-
-- formState 추가
+### 3.3. 검증 코드 메시지 출력시점
 
 ```js
 const { register, handleSubmit, formState } = useForm({
@@ -378,187 +386,82 @@ const { register, handleSubmit, formState } = useForm({
 });
 ```
 
-```js
-<form onSubmit={handleSubmit(handleSubmitFn)}>
-  <input type="text" {...register("username")} />
-  <div>{formState.errors.username?.message}</div>
-  <br />
-  <input type="password" {...register("userpass")} />
-  <div>{formState.errors.userpass?.message}</div>
-  <br />
-  <input type="email" {...register("useremail")} />
-  <div>{formState.errors.useremail?.message}</div>
-  <br />
-  <textarea {...register("usermemo")}></textarea>
-  <div>{formState.errors.usermemo?.message}</div>
-  <br />
-  <button type="submit">확인</button>
-</form>
-```
-
-### 2.5. 검사 완료 여부
+### 3.4. 최종 적용 코드
 
 ```js
 import React from "react";
 import { useForm } from "react-hook-form";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+// 초기값
 const initState = {
-  username: "",
+  userid: "",
   userpass: "",
   useremail: "",
   usermemo: "",
 };
 
 const FormComponent = () => {
-  ...
-  return (
-    <>
-      <form onSubmit={handleSubmit(handleSubmitFn)}>
-        ...
-        <br />
-        검증 여부 : {formState.isValid ? "ok" : "no"}
-        <br />
-        <button type="submit">확인</button>
-      </form>
-    </>
-  );
-};
-export default FormComponent;
-```
+  console.log("리랜더링");
 
-### 2.6. 전체 코드
-
-```js
-import React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-const initState = {
-  username: "",
-  userpass: "",
-  useremail: "",
-  usermemo: "",
-};
-
-const FormComponent = () => {
+  // yup 검증 코드
   const validationSchema = yup.object({
-    username: yup.string().required("이름을 입력해주세요."),
+    userid: yup.string("내용을 입력하세요.").required("아이디는 필수입니다."),
     userpass: yup
-      .string()
-      .required("비밀번호를 입력해주세요.")
+      .string("내용을 입력하세요.")
+      .required("비밀번호는 필수입니다.")
       .min(4, "4자 이상 입력하세요.")
-      .max(16, "최대 16자까지 입니다."),
+      .max(16, "16자까지만 입력하세요 "),
     useremail: yup
-      .string()
-      .required("이메일을 입력해주세요.")
-      .email("이메일 형식에 맞지 않습니다."),
-    usermemo: yup.string().required("메모를 입력해주세요."),
+      .string("내용을 입력하세요.")
+      .required("이메일은 필수입니다.")
+      .email("이메일 형식에 맞지 않습니다"),
+    usermemo: yup.string("내용을 입력하세요.").required("메모 필수입니다."),
   });
 
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  // handleSubmit 은 폼의 상태 변화 및 완료시 실행이 됩니다.
   const { register, handleSubmit, formState } = useForm({
     defaultValues: initState,
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
-  const handleSubmitFn = data => {
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
     console.log(data);
-    console.log(formState.isValid);
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleSubmitFn)}>
-        <input type="text" {...register("username")} />
-        <div>{formState.errors.username?.message}</div>
+      <form onSubmit={handleSubmit(handleSubmitMy)}>
+        <input type="text" {...register("userid")} />
+        <div style={{ color: "red" }}>{formState.errors.userid?.message}</div>
         <br />
         <input type="password" {...register("userpass")} />
-        <div>{formState.errors.userpass?.message}</div>
+        <div style={{ color: "red" }}>{formState.errors.userpass?.message}</div>
         <br />
         <input type="email" {...register("useremail")} />
-        <div>{formState.errors.useremail?.message}</div>
+        <div style={{ color: "red" }}>
+          {formState.errors.useremail?.message}
+        </div>
         <br />
         <textarea {...register("usermemo")}></textarea>
-        <div>{formState.errors.usermemo?.message}</div>
+        <div style={{ color: "red" }}>{formState.errors.usermemo?.message}</div>
         <br />
-        검증 여부 : {formState.isValid ? "ok" : "no"}
-        <br />
+
+        <div>
+          모든 검증을 통과했는지 파악 : {formState.isValid ? "OK" : "NO"}
+        </div>
+
         <button type="submit">확인</button>
       </form>
     </>
   );
 };
-export default FormComponent;
-```
 
-```js
-import React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-const initState = {
-  username: "",
-  userpass: "",
-  useremail: "",
-  usermemo: "",
-};
-
-const FormComponent = () => {
-  const validationSchema = yup.object({
-    username: yup.string().required("이름을 입력해주세요."),
-    userpass: yup
-      .string()
-      .required("비밀번호를 입력해주세요.")
-      .min(4, "4자 이상 입력하세요.")
-      .max(16, "최대 16자까지 입니다."),
-    useremail: yup
-      .string()
-      .required("이메일을 입력해주세요.")
-      .email("이메일 형식에 맞지 않습니다."),
-    usermemo: yup.string().required("메모를 입력해주세요."),
-  });
-
-  const {
-    register, // input에서 값을 불러오기 위한 함수
-    handleSubmit, // React-Hook-Form에서 Submit을 관리하기 위해 만든 함수
-    watch, // input에서 입력하는 값을 실시간으로 확인하기 위한 함수
-    formState,
-  } = useForm({
-    defaultValues: initState,
-    resolver: yupResolver(validationSchema),
-    mode: "onChange",
-  });
-  const handleSubmitFn = data => {
-    const result = watch();
-    console.log("data", data);
-    console.log("result", result);
-    console.log(formState.isValid);
-  };
-
-  return (
-    <>
-      <form onSubmit={handleSubmit(handleSubmitFn)}>
-        <input type="text" {...register("username")} />
-        <div>{formState.errors.username?.message}</div>
-        <br />
-        <input type="password" {...register("userpass")} />
-        <div>{formState.errors.userpass?.message}</div>
-        <br />
-        <input type="email" {...register("useremail")} />
-        <div>{formState.errors.useremail?.message}</div>
-        <br />
-        <textarea {...register("usermemo")}></textarea>
-        <div>{formState.errors.usermemo?.message}</div>
-        <br />
-        검증 여부 : {formState.isValid ? "ok" : "no"}
-        <br />
-        <button type="submit">확인</button>
-      </form>
-    </>
-  );
-};
 export default FormComponent;
 ```
