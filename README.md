@@ -1,13 +1,49 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 3. 컴포넌트 html의 이해
 
-### 1. 리액트 프로젝트 생성법
+- 컴포넌트의 용도 1 은 html 을 출력한다.
+- 컴포넌트의 용도 2 은 여러번 재사용.
+- 컴포넌트의 용도 3 은 유지보수 편리.
+- 컴포넌트는 관례상 파일로 생성.
+- 컴포넌트는 반드시 파스칼케이스(대문자)로 파일 및 코드 생성.
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+### 2. 리액트 작업 (CSS 작업)
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+#### 2.6. CSS-in-JS 형식 : emotion.js 방식
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+- `npm i @emotion/styled @emotion/react`
+- html 태그를 이용해서 내용을 구분하는 것은 한계가 있다.
+- html 태그에 이름을 변경하여 가독성/용도 활용을 수월하게 해준다.
+- html 태그에 이름을 변경하면서도 css 도 함께 적용한다.
+- html 태그 재활용(props 전달)을 수월하게 한다.
+- vscode 익스텐션 설치 `vscode-styled-components`
+
+- `import styled from "@emotion/styled";`
+
+```js
+const SlideSection = styled.section``;
+...
+<SlideSection>
+  <div className="inner">이미지슬라이드</div>
+</SlideSection>;
+```
+
+- 변수 전달하기
+
+```js
+export const SlideSection = styled.section`
+  position: relative;
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  height: ${props => (props.h ? props.h + "px" : null)};
+  background: ${props => (props.bg ? props.bg : "orange")};
+`;
+
+
+....
+<SlideSection bg="yellow" h={200}>
+....
+</SlideSection>
+```
