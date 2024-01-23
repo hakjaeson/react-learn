@@ -1,13 +1,48 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 3. 컴포넌트 html의 이해
 
-### 1. 리액트 프로젝트 생성법
+- 컴포넌트의 용도 1 은 html 을 출력한다.
+- 컴포넌트의 용도 2 은 여러번 재사용.
+- 컴포넌트의 용도 3 은 유지보수 편리.
+- 컴포넌트는 관례상 파일로 생성.
+- 컴포넌트는 반드시 파스칼케이스(대문자)로 파일 및 코드 생성.
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+### 1. 리액트 작업 (컴포넌트 작업 진행 순서)
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+#### 1.3. 데이터를 어디에 배치하면 효율적일까 고민해서 state 작성
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+- props.children 을 통해 컴포넌트 html 내용 변경
+
+```js
+// src/components/Header.js
+
+const Header = (props) => {
+  // 내부 html을 전달받아서 내용을 변경한다.
+  const children = props.children;
+  return (
+    <header>
+      <div>{children}</div>
+    </header>
+  );
+};
+
+export default Header;
+```
+
+- props 를 편하게 사용하는 법(객체 구조 분해 할당 : Destructuring assignment)
+
+```js
+// src/components/Header.js
+const Header = ({ children }) => {
+  // 내부 html을 전달받아서 내용을 변경한다.
+  // const children = props.children;
+  return (
+    <header>
+      <div>{children}</div>
+    </header>
+  );
+};
+
+export default Header;
+```
