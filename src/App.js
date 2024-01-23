@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { DatePicker, Space } from "antd";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import dayjs from "dayjs";
+dayjs.extend(customParseFormat);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
+const { RangePicker } = DatePicker;
+const App = () => (
+  <Space direction="vertical" size={12}>
+    <RangePicker />
+    <RangePicker
+      open={true}
+      disabled
+      defaultValue={[
+        dayjs("2023-12-20", "YYY-MM-DD"),
+        dayjs("2023-12-26", "YYY-MM-DD"),
+      ]}
+    />
+  </Space>
+);
 export default App;
