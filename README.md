@@ -1,13 +1,108 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 3. 컴포넌트 html의 이해
 
-### 1. 리액트 프로젝트 생성법
+- 컴포넌트의 용도 1 은 html 을 출력한다.
+- 컴포넌트의 용도 2 은 여러번 재사용.
+- 컴포넌트의 용도 3 은 유지보수 편리.
+- 컴포넌트는 관례상 파일로 생성.
+- 컴포넌트는 반드시 파스칼케이스(대문자)로 파일 및 코드 생성.
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+### 2. 리액트 작업 (CSS 작업)
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+- `npm i -D sass` 설치
+- /src/scss 폴더 생성후 .scss 파일들을 작성
+- Watch Sass 즉, 하단의 버튼을 클릭하여 Watching 을 시켜줌
+- 파일명.scss 를 저장하니까 파일명.css 가 만들어 졌어요.
+- scss 로 저장해서 만들어진 css 갯수만큼 배치해야한다.
+- \_를 붙여준 .scss 는 저장을 해도 css 가 안만들어지네
+  _ @import "파일명" 을 할때 _ 기호를 제거하고 파일명만 넣어주면 하나의 파일로 합쳐진다.
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+  `/src/scss/main.scss`
+
+  ```scss
+  @import "variables";
+  @import "mixin";
+  @import "header";
+  @import "footer";
+
+  .wrap {
+    position: relative;
+    @include bt(red);
+    background: green;
+    .main {
+      position: relative;
+      .slide {
+        position: relative;
+      }
+      @media screen and (max-width: $min-mobile-screen) {
+        .slide {
+          position: absolute;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $wide-screen) {
+    .wrap {
+      position: relative;
+    }
+  }
+  @media screen and (max-width: $pc-screen) {
+    .wrap {
+      position: relative;
+    }
+  }
+
+  @media screen and (max-width: $notebook-screen) {
+    .wrap {
+      position: relative;
+    }
+  }
+
+  @media screen and (max-width: $tablet-screen) {
+    .wrap {
+      position: relative;
+    }
+  }
+
+  @media screen and (max-width: $mobile-screen) {
+    .wrap {
+      position: relative;
+    }
+  }
+
+  @media screen and (max-width: $min-mobile-screen) {
+    .wrap {
+      position: relative;
+    }
+  }
+  ```
+
+  `/src/scss/_variables.scss`
+
+  ```scss
+  // 화면 너비 변수 설정
+  $wide-screen: 1920px;
+  $pc-screen: 1280px;
+  $notebook-screen: 1024px;
+  $tablet-screen: 960px;
+  $mobile-screen: 760px;
+  $min-mobile-screen: 480px;
+  ```
+
+  `/src/scss/_mixin.scss`
+
+  ```scss
+  @mixin bt($cc) {
+    border: 5px solid $cc;
+  }
+  ```
+
+#### 2.3. 파일 : link .scss 방식
+
+#### 2.4. js 형식 : inline {} 방식
+
+#### 2.5. js 형식 : 변수 {} 방식
+
+#### 2.6. CSS-in-JS 형식 : emotion.js 방식
