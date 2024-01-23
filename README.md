@@ -1,13 +1,73 @@
 # React 공부하기
 
-## 프로젝트 생성
+## 4. 컴포넌트 js의 이해
 
-### 1. 리액트 프로젝트 생성법
+### 4.5. 이벤트(onSubmit)의 이해
 
-- 폴더명은 반드시 소문자로 만들기
-- Node.js 프로젝트를 직접 생성하고 [Webpack](https://webpack.kr/), [Babel](https://babeljs.io/) 셋팅 직접하고 [npm](https://www.npmjs.com/) 직접 설치하고 진행
-- `npx create-react-app ./`
+- 주의사항 (form 태그 안의 button 주의하세요.)
 
-### 2. [깃허브](https://github.com/) 생성 `단계별 branch 생성 및 push`
+  ```html
+  <button>버튼</button>
+  ```
 
-- `react-study` 저장소를 생성하고, private 로 셋팅
+  ```html
+  <!-- 이러시면 곤란합니다. submit 실행됩니다. -->
+  <form>
+    <!-- 자동으로 type 이 submit 셋팅됩니다. -->
+    <!-- form 의 데이터를 전송하겠다는 의미 -->
+    <button>버튼</button>
+  </form>
+  ```
+
+  ```html
+  <form>
+    <!-- form 안에서 type 을 명시한 경우  -->
+    <button type="button">버튼</button>
+  </form>
+  ```
+
+- onSubmit 적용하기
+
+  ```js
+  <form action="/path" method="get" name="join" onSubmit={function (event) {}}>
+    ...
+  </form>
+  ```
+
+  ```js
+  <form action="/path" method="get" name="join" onSubmit={event => {}}>
+    ...
+  </form>
+  ```
+
+  ```js
+   // 데이터 전송 처리 함수
+  const handleSubmitJoinForm = event => {};
+  ....
+  <form
+        action="/path"
+        method="get"
+        name="join"
+        onSubmit={event => handleSubmitJoinForm(event)}
+      >
+  ....
+  </form>
+  ```
+
+- 반드시 form 처리를 해야 합니다.
+
+  ```js
+  // 데이터 전송 처리 함수
+  const handleSubmitJoinForm = event => {
+    // 기본 동작 막기
+    event.preventDefault();
+
+    console.log(event);
+    console.log(event.type);
+    console.log(event.target);
+    console.log(event.target.name);
+    console.log(event.target.action);
+    console.log(event.target.method);
+    console.log(event.target.onSubmit);
+  };
+  ```
