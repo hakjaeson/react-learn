@@ -152,14 +152,13 @@ const FormComponent = () => {
       </Form>
 
       {/* Daum Post */}
-      <Modal open={isOpen} footer={[]}>
-        <DaumPostcode onComplete={handleComplete} />
-      </Modal>
-      {isOpen && (
-        <Modal open={true} footer={[]}>
-          <DaumPostcode onComplete={handleComplete} />
-        </Modal>
-      )}
+      {isOpen ? (
+        <div>
+          <Modal open={true} footer={[]}>
+            <DaumPostcode onComplete={handleComplete} />
+          </Modal>
+        </div>
+      ) : null}
     </>
   );
 };
