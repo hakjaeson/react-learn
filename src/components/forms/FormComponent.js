@@ -15,16 +15,21 @@ const FormComponent = () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
-    input.click();
+    input.click(); // 강제클릭
+
+    // 이미지 선택을 한다면 처리를 진행한다.
     input.addEventListener("change", () => {
-      const file = input.file[0];
+      // console.log("파일체인지");
+      // 일반적인 파일 처리과정을 진행한다.
+      const file = input.files[0];
       console.log(file);
       const formData = new FormData();
       formData.append("img", file);
+      // 백엔드 이미지 서버로 전송해서 이미지 경로 받아야 합니다.
       try {
-        console.log("axios");
-      } catch (error) {
-        console.log(error);
+        console.log("서버로 이미지 전송 axio 실행");
+      } catch (err) {
+        console.log("err");
       }
     });
   };
@@ -91,7 +96,7 @@ const FormComponent = () => {
           ["clean"],
         ],
         // 이미지 관련해서는 내가 직접 처리할께.
-        handlers: { image: imageHandler },
+        // handlers: { image: imageHandler },
       },
     }),
     [],
