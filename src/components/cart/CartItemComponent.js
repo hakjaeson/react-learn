@@ -2,7 +2,15 @@ import React from "react";
 import { API_SERVER_HOST } from "../../api/todoApi";
 import useCustomCart from "../../hooks/useCustomCart";
 const host = API_SERVER_HOST;
-const CartItemComponent = ({ email, cino, qty, pno, pname, price, imageFile }) => {
+const CartItemComponent = ({
+  email,
+  cino,
+  qty,
+  pno,
+  pname,
+  price,
+  imageFile,
+}) => {
   const { changeCart } = useCustomCart();
   // 상품갯수 변경
   const handleClickQty = amount => {
@@ -29,7 +37,7 @@ const CartItemComponent = ({ email, cino, qty, pno, pname, price, imageFile }) =
       </div>
       <div>
         <div>
-          <button onClick={() => handleClickQty(0)}>삭제</button>
+          <button onClick={() => handleClickQty(-qty)}>삭제</button>
         </div>
         <p>총 구매가격 : {qty * price} 원</p>
       </div>

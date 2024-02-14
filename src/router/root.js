@@ -1,24 +1,3 @@
-# react-router-dom 최신 버전 활용하기
-
-- react-router-dom 버전에 따라서 주의
-
-- JSX 형식
-  : 지금까지의 방식을 JSX 방식이라고 부르자.
-  : 기존 소스 또는 프로젝트 형식
-
-- Provider 형식
-  : Provider 방식이라고 부르자.
-  : 라우터를 파일 별로 관리하자.
-
-- [react-router-dom](https://reactrouter.com/en/main/routers/picking-a-router)
-
-## 1. 라우터를 위한 폴더 및 파일 구조
-
-- src/router 폴더 생성합니다.
-- src/router/root.js 파일 생성
-- 메인패스만 정리해서 배치하고, 중첩은 별도파일로 생성
-
-```js
 // 라우터를 별도 파일 관리하겠다.
 // 패스 가 주 경로 일때
 // 패스 가 중첩일때는 또 별도로 파일 생성
@@ -105,8 +84,3 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
-```
-
-- 이후 하나씩 src/router/product.js
-- 이후 하나씩 src/router/todo.js
-- 이후 하나씩 src/router/memmber.js ...
