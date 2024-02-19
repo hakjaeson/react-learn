@@ -7,6 +7,7 @@ import { Suspense, lazy } from "react";
 import todoRouter from "./todoRouter";
 import productRouter from "./productRouter";
 import memberRouter from "./memberRouter";
+import MemoPage from "../pages/MemoPage";
 
 // 메인패스 컴포넌트
 const LazyMainPage = lazy(() => import("../pages/MainPage"));
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <h1>페이지가 없어요</h1>,
+  },
+  {
+    path: "/memo",
+    element: <MemoPage />,
   },
 ]);
 
