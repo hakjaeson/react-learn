@@ -1,40 +1,43 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { loginPostAsync, logout } from "../slices/loginSlice";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { loginPost } from "../api/memberApi";
+import { atomSignState } from "../atoms/atomSignState";
+import { removeCookie, setCookie } from "../util/cookieUtil";
 
 const useCustomLogin = () => {
   // 패스 이동하기
   const navigate = useNavigate();
 
-  // RTK 상태값 업데이트
-  const dispatch = useDispatch();
+  // Recoil 로그인 Atom 불러오기
+  const [loginState, setLoginState] = useRecoilState(atomSignState);
 
-  // RTK 상태값 읽기
-  const loginState = useSelector(state => state.loginSlice);
+  // Recoil 로그인 atom 리셋하기
+  const resetSignState = useResetRecoilState(atomSignState);
 
-  // 로그인 상태값 파악
   const isLogin = loginState.email ? true : false;
 
   // 로그인 기능
-  const doLogin = ({ loginParam, successFn, failFn, errorFn }) => {
-    // 로그인 어느화면에서 실행이 될 소지가 높아요.
-    // 로그인 상태 업데이트
-    const action = dispatch(
-      loginPostAsync({ loginParam, successFn, failFn, errorFn }),
-    );
-    // 결과값
-    return action.payload;
+  const doLogin = async ({ loginParam }) => {
+    const result = await loginPost({ loginParam });
+    saveAsCookie(result);
+    moveToPath("/");
+
+    return result;
+  };
+
+  const saveAsCookie = result => {
+    setLoginState(result);
+    setCookie("member", JSON.stringify(result), 1);
   };
 
   // 로그아웃 기능
   const doLogout = () => {
-    dispatch(logout());
+    removeCookie("member");
+    resetSignState();
   };
 
   // 패스이동 기능
   const moveToPath = path => {
-    // 패스로 이동 후에 replace:ture 를 적용시 뒤로 가기 화면
-    // 이전 페이지 기록을 남기지 않는다.
     navigate({ pathname: path }, { replace: true });
   };
 
@@ -44,7 +47,15 @@ const useCustomLogin = () => {
     return <Navigate replace to="/member/login" />;
   };
 
-  return { loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
+  return {
+    loginState,
+    isLogin,
+    doLogin,
+    doLogout,
+    moveToPath,
+    moveToLogin,
+    saveAsCookie,
+  };
 };
 
 export default useCustomLogin;
