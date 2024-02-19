@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { getOne } from "../../api/productApi";
 import { API_SERVER_HOST } from "../../api/todoApi";
 import Fetching from "../common/Fetching";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
+// ReactQuery 활용
+import { useQuery } from "@tanstack/react-query";
 // 이미지 API 주소
 const host = API_SERVER_HOST;
 
@@ -20,31 +21,35 @@ const initState = {
 };
 
 const ProductReadComponent = ({ pno }) => {
-  const [product, setProduct] = useState(initState);
-  // 로딩창
-  const [fetching, setFetching] = useState(false);
+  // V5 입니다.
+  // useQuery 함수에 매개변수로 {} 묶어주고 전달한다.
+  // : 매개변수는 객체리터럴 형태로서 {이름:값, 이름:함수.. }
+  // : 매개변수 객체의 이름들은 API 를 참조하여서 활용
+  // : 리턴값 data 는 API 연동 실행후 돌려진 값
+  // : 리턴값 isFetching 은 API 연결 실행중 (로딩창 등..)
+  // useQuery 값을 읽기
+  // 제일 중요한 것은 queryKey 가 중요합니다.
+  // queryKey 가  ReactQuery 의 변수목록이 됩니다.
+  // queryFn  가   axios 호출
 
-  useEffect(() => {
-    setFetching(true);
-    getOne({ pno, successFn, failFn, errorFn });
-  }, []);
+  // staleTime 가  API 백엔드 서버를 호출할지 말지 시간조절
+  // staleTime 에 지정한 시간 안에는 다시 API 백엔드 호출 않함
+  //     fresh 상태에서는 호출 안함
 
-  const successFn = result => {
-    setFetching(false);
-    console.log(result);
-    setProduct(result);
-  };
-  const failFn = result => {
-    setFetching(false);
-    console.log(result);
-  };
-  const errorFn = result => {
-    setFetching(false);
-    console.log(result);
-  };
+  // staleTime 에 지정한 시간 지나면 API 백엔드 호출 가능
+  //     stale 상태에서 호출 가능
+
+  // 주의 사항
+  //  : axios 코드에서는 반드시 return 이 있어야 정상 작동됩니다.
+
+  const { data, isFetching } = useQuery({
+    queryKey: ["products", pno],
+    queryFn: () => getOne({ pno }),
+    staleTime: 1000 * 60,
+  });
+  const product = data || initState;
 
   const { moveToModify, moveToList, page } = useCustomMove();
-
   // 사용자 정보를 이용해서 장바구니 담기
   const { loginState } = useCustomLogin();
   // 장바구니 관련 RTK state 사용
@@ -79,7 +84,7 @@ const ProductReadComponent = ({ pno }) => {
 
   return (
     <div>
-      {fetching ? <Fetching /> : null}
+      {isFetching ? <Fetching /> : null}
       <div>
         <div>제품번호: {product.pno}</div>
       </div>
