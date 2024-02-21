@@ -20,6 +20,10 @@ const LazyMapPage = lazy(() => import("../pages/map/MapPage"));
 
 const router = createBrowserRouter([
   {
+    path: "/memo",
+    element: <MemoPage />,
+  },
+  {
     path: "/",
     element: (
       <Suspense fallback={<Loading />}>
@@ -81,10 +85,6 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <h1>페이지가 없어요</h1>,
-  },
-  {
-    path: "/memo",
-    element: <MemoPage />,
   },
 ]);
 
