@@ -65,10 +65,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
+    "babel-loader": "^9.1.3",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
